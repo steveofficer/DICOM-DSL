@@ -39,7 +39,7 @@
     <Compile Include="AEMacro.boo" />
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="DicomMacro.boo" />
-    <Compile Include="MyClass.boo" />
+    <Compile Include="TagMacro.boo" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>
