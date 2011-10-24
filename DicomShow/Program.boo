@@ -3,7 +3,7 @@
 import System
 import DicomDSL
 
-AE 256, "helloworld", "something else"
+AE "helloworld", "something else"
     
     
 
