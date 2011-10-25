@@ -14,18 +14,14 @@ protected abstract class TagMacro(LexicalInfoPreservingMacro):
     protected abstract VR as string:
         get: pass
             
-    private def GetTagId(arguments as ExpressionCollection):
+    private def TryGetTagId(macro as MacroStatement) as uint:
+        arguments = macro.Arguments
+        raise TagException(macro.LexicalInfo, "There must be at least one argument. The first argument represents the Tag Id.") if arguments.IsEmpty
         first_argument = arguments.First as IntegerLiteralExpression
-        if first_argument is null:
-            error = CompilerErrorFactory.InvalidParameterType(
-                arguments.First,  
-                "uint"
-            )
-            Errors.Add(error)
-            return 0
+        raise TagException(arguments.First.LexicalInfo, "The first argument must be a uint that represents the Tag Id.") if first_argument is null
         return cast(uint, first_argument.Value)
         
-    protected abstract def GetTagValue(arguments as ExpressionCollection) as ExpressionCollection:
+    protected abstract def TryGetTagValues(arguments as ExpressionCollection) as ExpressionCollection:
         pass
         
     private def FindParent(statement as MacroStatement):
@@ -51,16 +47,28 @@ protected abstract class TagMacro(LexicalInfoPreservingMacro):
             for c in VR:
                 stream.WriteByte(c)
             
-            WriteTagData(stream, data)
-            return stream.GetBuffer()
+            try:
+                WriteTagData(stream, data)
+            except e as TagException:
+                Errors.Add(CompilerErrorFactory.CustomError(e.LexicalInfo, e.Message))
+            
+            buffer = Array.CreateInstance(byte, stream.Length)
+            stream.Position = 0
+            stream.Read(buffer, 0, stream.Length)
+            return buffer
         
     protected abstract def WriteTagData(stream as Stream, data as ExpressionCollection):
         pass
     
     def ExpandImpl(macro as MacroStatement):
-        tag_id = GetTagId(macro.Arguments)
-        tag_data = ConvertToBytes(tag_id, GetTagValue(macro.Arguments))
+        try:
+            tag_id = TryGetTagId(macro)
+            tag_values = TryGetTagValues(macro.Arguments.PopRange(1))
+        except e as TagException:
+            Errors.Add(CompilerErrorFactory.CustomError(e.LexicalInfo, e.Message))
+            return ExpressionStatement()
         
+        tag_data = ConvertToBytes(tag_id, tag_values)
         parent_macro = FindParent(macro)
         if parent_macro is not null:
             AddToParent(parent_macro, tag_id, tag_data)

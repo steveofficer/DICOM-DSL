@@ -3,8 +3,6 @@
 import System
 import DicomDSL
 
-AE "helloworld", "something else"
-    
-    
+AE 13, "hello world"
 
 Console.ReadKey(true)
