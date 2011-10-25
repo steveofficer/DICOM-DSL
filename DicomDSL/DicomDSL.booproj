@@ -41,6 +41,7 @@
     <Compile Include="DicomMacro.boo" />
     <Compile Include="TagMacro.boo" />
     <Compile Include="TagException.boo" />
+    <Compile Include="UIMacro.boo" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>
