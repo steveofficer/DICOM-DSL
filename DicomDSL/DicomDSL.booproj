@@ -38,10 +38,14 @@
   <ItemGroup>
     <Compile Include="AEMacro.boo" />
     <Compile Include="AssemblyInfo.boo" />
+    <Compile Include="CSMacro.boo" />
     <Compile Include="DicomMacro.boo" />
+    <Compile Include="Exception\TagException.boo" />
     <Compile Include="TagMacro.boo" />
-    <Compile Include="TagException.boo" />
     <Compile Include="UIMacro.boo" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exception" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>

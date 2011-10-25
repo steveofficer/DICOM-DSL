@@ -22,13 +22,13 @@ class AEMacro(TagMacro):
     def WriteTagData(stream as Stream, data as ExpressionCollection):
         for literal as StringLiteralExpression in data:
             val = literal.Value
-            if String.IsNullOrEmpty(val):
+            if string.IsNullOrEmpty(val):
                 stream.WriteByte(0)
             else:
-                raise TagException(literal.LexicalInfo, "An AE value cannot contain the LF character.") if char(0x0A) in val
-                raise TagException(literal.LexicalInfo, "An AE value cannot contain the FF character.") if char(0x0C) in val
-                raise TagException(literal.LexicalInfo, "An AE value cannot contain the CR character.") if char(0x0D) in val
-                raise TagException(literal.LexicalInfo, "An AE value cannot contain the ESC character.") if char(0x1B) in val
-                raise TagException(literal.LexicalInfo, "An AE value cannot contain the \\ character.") if char(0x5C) in val
+                raise TagException(literal.LexicalInfo, "An $VR value cannot contain the LF character.") if char(0x0A) in val
+                raise TagException(literal.LexicalInfo, "An $VR value cannot contain the FF character.") if char(0x0C) in val
+                raise TagException(literal.LexicalInfo, "An $VR value cannot contain the CR character.") if char(0x0D) in val
+                raise TagException(literal.LexicalInfo, "An $VR value cannot contain the ESC character.") if char(0x1B) in val
+                raise TagException(literal.LexicalInfo, "An $VR value cannot contain the \\ character.") if char(0x5C) in val
                 for character in val:
                     stream.WriteByte(character)
