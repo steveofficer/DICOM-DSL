@@ -1,16 +1,16 @@
 ﻿namespace DicomDSL
 
 import System
-import Boo.Lang.Compiler.Ast
 import System.IO
+import Boo.Lang.Compiler.Ast
 
-final class UIMacro(TagMacro):
-"""Macro for outputting UI values."""
+final class ASMacro(TagMacro):
+"""Description of ASMacro"""
     public def constructor():
         pass
-    
+
     VR: 
-        get: return "UI"
+        get: return "AS"
             
     def TryGetTagValues(data_arguments as ExpressionCollection):
         if data_arguments.IsEmpty:
@@ -22,10 +22,7 @@ final class UIMacro(TagMacro):
         
     def WriteTagData(stream as Stream, data as ExpressionCollection):
         for literal as StringLiteralExpression in data:
-            val = literal.Value
-            if string.IsNullOrEmpty(val):
-                stream.WriteByte(0)
-            else:
-                for c in val:
-                    raise TagException(literal.LexicalInfo, "A $VR value can only contain numbers and the '.' character.") if not (char.IsNumber(c) or c.Equals(char('.')))
-                    stream.WriteByte(c)
+            val = literal.Value.ToUpper()
+            raise TagException(literal.LexicalInfo, "An $VR value must follow one of the following patterns: nnnD, nnnW, nnnM, nnnY") if not val =~ /^\d{1,3}[D|W|M|Y]$/
+            for c in val:
+            	stream.WriteByte(c)

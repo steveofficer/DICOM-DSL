@@ -5,7 +5,7 @@ import System.IO
 import Boo.Lang.Compiler
 import Boo.Lang.Compiler.Ast
 
-class AEMacro(TagMacro):
+final class AEMacro(TagMacro):
 """Description of AEMacro"""
     
     VR:
@@ -13,7 +13,7 @@ class AEMacro(TagMacro):
             
     def TryGetTagValues(data_arguments as ExpressionCollection):
         if data_arguments.IsEmpty:
-            data_arguments.Add(StringLiteralExpression())
+            data_arguments.Add(NullLiteralExpression())
         else:
             for arg in data_arguments:
                 raise TagException(arg.LexicalInfo, "The tag values must be a $NodeType.StringLiteralExpression") if arg.NodeType != NodeType.StringLiteralExpression

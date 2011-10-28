@@ -5,8 +5,8 @@ import System.IO
 import Boo.Lang.Compiler.Ast
 import Boo.Lang.Compiler
 
-class CSMacro(TagMacro):
-"""Description of CSMacro"""
+final class CSMacro(TagMacro):
+"""Macro for outputting CS values."""
     public def constructor():
         pass
     
@@ -15,7 +15,7 @@ class CSMacro(TagMacro):
             
     def TryGetTagValues(data_arguments as ExpressionCollection):
         if data_arguments.IsEmpty:
-            data_arguments.Add(StringLiteralExpression())
+            data_arguments.Add(NullLiteralExpression())
         else:
             for arg in data_arguments:
                 raise TagException(arg.LexicalInfo, "The tag values must be a $NodeType.StringLiteralExpression") if arg.NodeType != NodeType.StringLiteralExpression

@@ -7,7 +7,7 @@ import Boo.Lang.Compiler.Ast
 import Boo.Lang.Compiler
 
 protected abstract class TagMacro(LexicalInfoPreservingMacro):
-"""Description of TagMacro"""
+"""The base class for all macros that are used to represent tags and their values in a DICOM file."""
     public def constructor():
         pass
     
@@ -47,10 +47,11 @@ protected abstract class TagMacro(LexicalInfoPreservingMacro):
             for c in VR:
                 stream.WriteByte(c)
             
-            try:
-                WriteTagData(stream, data)
-            except e as TagException:
-                Errors.Add(CompilerErrorFactory.CustomError(e.LexicalInfo, e.Message))
+            unless data.Count == 1 and data[0].NodeType == NodeType.NullLiteralExpression:
+                try:
+                    WriteTagData(stream, data)
+                except e as TagException:
+                    Errors.Add(CompilerErrorFactory.CustomError(e.LexicalInfo, e.Message))
             
             buffer = Array.CreateInstance(byte, stream.Length)
             stream.Position = 0
