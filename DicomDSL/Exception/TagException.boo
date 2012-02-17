@@ -3,7 +3,7 @@
 import System
 import Boo.Lang.Compiler.Ast
 
-class TagException(Exception):
+internal class TagException(Exception):
 """Description of TagValueException"""
     public def constructor(lexical_info as LexicalInfo, message as string):
         super(message)
