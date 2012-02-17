@@ -49,6 +49,9 @@
     <Compile Include="LOMacro.boo" />
     <Compile Include="LTMacro.boo" />
     <Compile Include="PNMacro.boo" />
+    <Compile Include="SHMacro.boo" />
+    <Compile Include="SLMacro.boo" />
+    <Compile Include="SQMacro.boo" />
     <Compile Include="TagMacro.boo" />
     <Compile Include="UIMacro.boo" />
     <Compile Include="ULMacro.boo" />
